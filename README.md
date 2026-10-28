@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Transaction-Based Retail Inventory Management System
 ## Starter repository + step-by-step team guide
 
@@ -684,3 +685,6 @@ Prioritize a working reservation transaction and concurrency test over decorativ
 - [ ] Limitations and future improvements are stated honestly.
 
 **Final rule:** AI writes code; your team verifies it. A file existing is not proof that a feature works. A passing test, inspected database state, and repeatable demo are the evidence.
+=======
+# TBIMS
+>>>>>>> f6cefd13ed1c0b19b24f27892511365223b2ac7a
