@@ -1643,7 +1643,11 @@
 }
 
 .movement-pill--purchase { background: #dbeafe; color: #1e40af; }
+.movement-pill--in { background: #dbeafe; color: #1e40af; }
 .movement-pill--sale { background: #fef3c7; color: #92400e; }
+.movement-pill--out { background: #fef3c7; color: #92400e; }
+.movement-pill--reserve { background: #e0e7ff; color: #3730a3; }
+.movement-pill--cancel_reservation { background: #fee2e2; color: #991b1b; }
 .movement-pill--return { background: #f3e8ff; color: #6b21a8; }
 .movement-pill--adjustment { background: #e0e7ff; color: #3730a3; }
 .movement-pill--opening { background: #f1f5f9; color: #475569; }

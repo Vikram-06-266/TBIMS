@@ -12,7 +12,7 @@ function formatCurrency(value) {
   }).format(price)
 }
 
-function StockReceivingView({ products, onReceiveStock, movements = [] }) {
+function StockReceivingView({ products, onReceiveStock, movements = [], isLiveMode = false }) {
   const [selectedSku, setSelectedSku] = useState(products[0]?.sku || '')
   const [quantity, setQuantity] = useState('10')
   const [reference, setReference] = useState('')
@@ -70,18 +70,21 @@ function StockReceivingView({ products, onReceiveStock, movements = [] }) {
 
   // Filter recent purchase/stock receipts
   const recentReceipts = movements
-    .filter((m) => m.type === 'PURCHASE' || m.type === 'OPENING')
+    .filter((m) => m.type === 'PURCHASE' || m.type === 'OPENING' || m.type === 'IN')
     .slice(0, 10)
 
   return (
     <div className="stock-receiving-view">
-      <div className="demo-banner demo-banner--isolated" role="status">
-        <Icon name="packagePlus" size={18} />
+      <div className={`demo-banner ${isLiveMode ? 'demo-banner--live' : 'demo-banner--isolated'}`} role="status">
+        <Icon name={isLiveMode ? 'database' : 'packagePlus'} size={18} />
         <div>
-          <strong>DEMO STOCK RECEIVING — P4 WORKFLOW ONLY</strong>
+          <strong>
+            {isLiveMode ? 'LIVE POSTGRESQL INVENTORY INTAKE' : 'DEMO STOCK RECEIVING — P4 WORKFLOW ONLY'}
+          </strong>
           <span className="demo-banner__detail">
-            Demonstrates atomic inventory intake formula: <code>on_hand += qty</code> and <code>available = on_hand - reserved</code>.
-            Data stays in this browser session and is not sent to PostgreSQL.
+            {isLiveMode
+              ? 'Receiving stock executes atomic PostgreSQL inventory updates and logs to stock_transactions, stock_ledger, and audit_logs.'
+              : 'Demonstrates atomic inventory intake formula: on_hand += qty and available = on_hand - reserved. Sample in-memory mode.'}
           </span>
         </div>
       </div>

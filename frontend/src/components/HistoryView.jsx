@@ -3,7 +3,7 @@ import Icon from './Icon.jsx'
 
 const PAGE_SIZE = 50
 
-function HistoryView({ movements = [], auditLog = [] }) {
+function HistoryView({ movements = [], auditLog = [], isLiveMode = false }) {
   const [activeTab, setActiveTab] = useState('movements') // 'movements' | 'audit'
   const [typeFilter, setTypeFilter] = useState('ALL')
   const [movementsPage, setMovementsPage] = useState(1)
@@ -40,13 +40,16 @@ function HistoryView({ movements = [], auditLog = [] }) {
 
   return (
     <div className="history-view">
-      <div className="demo-banner demo-banner--isolated" role="status">
-        <Icon name="history" size={18} />
+      <div className={`demo-banner ${isLiveMode ? 'demo-banner--live' : 'demo-banner--isolated'}`} role="status">
+        <Icon name={isLiveMode ? 'database' : 'history'} size={18} />
         <div>
-          <strong>DEMO AUDIT &amp; STOCK MOVEMENT LOGS — P4 INTEGRATION PREVIEW</strong>
+          <strong>
+            {isLiveMode ? 'LIVE POSTGRESQL STOCK LEDGER & AUDIT TRAIL' : 'DEMO AUDIT & STOCK MOVEMENT LOGS — P4 INTEGRATION PREVIEW'}
+          </strong>
           <span className="demo-banner__detail">
-            Reflects chronological in-memory transactions (intake, reservations, order confirmations, cancellations, returns).
-            Data is not written to Neon or a production PostgreSQL table.
+            {isLiveMode
+              ? 'Displaying immutable records directly from PostgreSQL stock_ledger and audit_logs tables. Zero simulated data.'
+              : 'Reflects chronological in-memory transactions (intake, reservations, order confirmations, cancellations, returns). Sample in-memory mode.'}
           </span>
         </div>
       </div>
@@ -80,9 +83,13 @@ function HistoryView({ movements = [], auditLog = [] }) {
               className="select-input select-input--compact"
             >
               <option value="ALL">All Types ({movements.length})</option>
-              <option value="PURCHASE">Purchase / Intake</option>
-              <option value="SALE">Sale / Order</option>
+              <option value="IN">Intake (IN)</option>
+              <option value="RESERVE">Reservation (RESERVE)</option>
+              <option value="OUT">Order Fulfilled (OUT)</option>
+              <option value="CANCEL_RESERVATION">Reservation Cancelled</option>
               <option value="RETURN">Return</option>
+              <option value="PURCHASE">Purchase / Intake (Demo)</option>
+              <option value="SALE">Sale / Order (Demo)</option>
               <option value="ADJUSTMENT">Adjustment</option>
               <option value="OPENING">Opening</option>
             </select>

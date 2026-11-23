@@ -18,6 +18,7 @@ function TransactionsView({
   onConfirmOrder,
   onCancelOrder,
   role = 'staff',
+  isLiveMode = false,
 }) {
   const [activeTab, setActiveTab] = useState('orders') // 'orders' | 'new-order'
   const [statusFilter, setStatusFilter] = useState('ALL')
@@ -167,13 +168,16 @@ function TransactionsView({
 
   return (
     <div className="transactions-view">
-      <div className="demo-banner demo-banner--isolated" role="status">
-        <Icon name="receipt" size={18} />
+      <div className={`demo-banner ${isLiveMode ? 'demo-banner--live' : 'demo-banner--isolated'}`} role="status">
+        <Icon name={isLiveMode ? 'database' : 'receipt'} size={18} />
         <div>
-          <strong>DEMO TRANSACTIONS & ORDER RESERVATIONS — P4 WORKFLOW ONLY</strong>
+          <strong>
+            {isLiveMode ? 'LIVE POSTGRESQL ORDER PROCESSING & RESERVATIONS' : 'DEMO TRANSACTIONS & ORDER RESERVATIONS — P4 WORKFLOW ONLY'}
+          </strong>
           <span className="demo-banner__detail">
-            Demonstrates atomic reservation lifecycle: PENDING (reserves stock) &rarr; CONFIRMED (deducts stock) or CANCELLED (releases stock).
-            All operations obey <code>available = on_hand - reserved</code> with zero overselling.
+            {isLiveMode
+              ? 'Real PostgreSQL database orders with atomic inventory reservation lifecycle: PENDING (reserves available) -> CONFIRMED (deducts on-hand) or CANCELLED (releases reservation).'
+              : 'Demonstrates atomic reservation lifecycle: PENDING (reserves stock) -> CONFIRMED (deducts stock) or CANCELLED (releases stock). Sample in-memory mode.'}
           </span>
         </div>
       </div>

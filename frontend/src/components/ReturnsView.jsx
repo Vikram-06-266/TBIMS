@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Icon from './Icon.jsx'
 
-function ReturnsView({ orders, products, onProcessReturn, movements = [] }) {
+function ReturnsView({ orders, products, onProcessReturn, movements = [], isLiveMode = false }) {
   // Only CONFIRMED or COMPLETED orders are eligible for return
   const eligibleOrders = orders.filter(
     (o) => o.status === 'CONFIRMED' || o.status === 'COMPLETED'
@@ -89,13 +89,16 @@ function ReturnsView({ orders, products, onProcessReturn, movements = [] }) {
 
   return (
     <div className="returns-view">
-      <div className="demo-banner demo-banner--isolated" role="status">
-        <Icon name="return" size={18} />
+      <div className={`demo-banner ${isLiveMode ? 'demo-banner--live' : 'demo-banner--isolated'}`} role="status">
+        <Icon name={isLiveMode ? 'database' : 'return'} size={18} />
         <div>
-          <strong>DEMO RETURNS PROCESSING — P4 WORKFLOW ONLY</strong>
+          <strong>
+            {isLiveMode ? 'LIVE POSTGRESQL RETURNS PROCESSING' : 'DEMO RETURNS PROCESSING — P4 WORKFLOW ONLY'}
+          </strong>
           <span className="demo-banner__detail">
-            Demonstrates retail return processing: restores physical stock (<code>on_hand += qty</code>, <code>available += qty</code>),
-            validates against order quantity, and records an immutable return movement.
+            {isLiveMode
+              ? 'Validates against confirmed PostgreSQL order items and restores available inventory atomically, recording stock_transactions, ledger, and audit history.'
+              : 'Demonstrates retail return processing: restores physical stock (on_hand += qty, available += qty), validates against order quantity, and records an immutable return movement.'}
           </span>
         </div>
       </div>

@@ -185,9 +185,9 @@ function getInitialPage() {
 }
 
 function App() {
-  // Mode selection: Live Database Mode (default if live stored) vs Demo Mode
+  // Mode selection: Live Database Mode (default unless explicitly set to demo) vs Demo Mode
   const [isLiveMode, setIsLiveMode] = useState(() => {
-    return sessionStorage.getItem('tbims.mode') === 'live'
+    return sessionStorage.getItem('tbims.mode') !== 'demo'
   })
 
   // Demo state engine (in-memory baseline)
@@ -204,13 +204,7 @@ function App() {
 
   // Authentication & session management
   const [initialSession] = useState(() => readStoredSession())
-  const [session, setSession] = useState(() => {
-    if (initialSession) return initialSession
-    return {
-      token: `demo-bearer-token-${DEFAULT_PREVIEW_ROLE}`,
-      user: { username: DEFAULT_PREVIEW_ROLE, role: DEFAULT_PREVIEW_ROLE },
-    }
-  })
+  const [session, setSession] = useState(() => initialSession)
 
   const [authChecking, setAuthChecking] = useState(Boolean(initialSession && isLiveMode))
   const [authError, setAuthError] = useState('')
@@ -912,6 +906,7 @@ function App() {
               products={currentProducts}
               onReceiveStock={handleReceiveStock}
               movements={currentMovements}
+              isLiveMode={isLiveMode}
             />
           )}
 
@@ -924,6 +919,7 @@ function App() {
               onConfirmOrder={handleConfirmOrder}
               onCancelOrder={handleCancelOrder}
               role={role}
+              isLiveMode={isLiveMode}
             />
           )}
 
@@ -934,6 +930,7 @@ function App() {
               products={currentProducts}
               onProcessReturn={handleProcessReturn}
               movements={currentMovements}
+              isLiveMode={isLiveMode}
             />
           )}
 
@@ -942,6 +939,7 @@ function App() {
             <HistoryView
               movements={currentMovements}
               auditLog={currentAuditLog}
+              isLiveMode={isLiveMode}
             />
           )}
 

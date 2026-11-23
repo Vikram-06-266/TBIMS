@@ -1,6 +1,9 @@
 import { ApiError } from './products-api.js'
 
-const API_BASE_URL = (import.meta.env?.VITE_API_BASE_URL || '').replace(/\/+$/, '')
+const rawBase = (import.meta.env?.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '')
+const API_BASE_URL = rawBase && !rawBase.startsWith('http://') && !rawBase.startsWith('https://')
+  ? `https://${rawBase}`
+  : rawBase
 
 async function request(path, options = {}) {
   const { token, ...fetchOptions } = options

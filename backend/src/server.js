@@ -38,7 +38,16 @@ export function createApp({
   const productService = createProductService(resolvedProductAdapters);
 
   app.use(requestId);
-  app.use(cors());
+  const corsOrigin = process.env.CORS_ORIGIN;
+  const corsOptions = corsOrigin
+    ? {
+        origin: corsOrigin.includes(",")
+          ? corsOrigin.split(",").map((s) => s.trim())
+          : corsOrigin,
+        credentials: true,
+      }
+    : {};
+  app.use(cors(corsOptions));
   app.use(express.json());
 
   app.use("/api", healthRouter);
