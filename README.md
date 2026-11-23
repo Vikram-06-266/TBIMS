@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Transaction-Based Retail Inventory Management System
 ## Starter repository + step-by-step team guide
 
@@ -686,6 +685,68 @@ Prioritize a working reservation transaction and concurrency test over decorativ
 - [ ] Limitations and future improvements are stated honestly.
 
 **Final rule:** AI writes code; your team verifies it. A file existing is not proof that a feature works. A passing test, inspected database state, and repeatable demo are the evidence.
-=======
-# TBIMS
->>>>>>> f6cefd13ed1c0b19b24f27892511365223b2ac7a
+
+## 17. Initial accounts and authentication
+
+The current P1 SQL in this checkout defines products only; it has no users
+table. P4 therefore provisions the initial accounts in the ignored local
+`backend/.env` file as scrypt password hashes. This does not change P1 SQL or
+expose an unauthenticated setup endpoint.
+
+From PowerShell:
+
+```powershell
+Set-Location backend
+Copy-Item .env.example .env
+node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"
+```
+
+Copy the generated random value into `AUTH_TOKEN_SECRET` in `backend/.env`, then
+run:
+
+```powershell
+npm run auth:seed
+```
+
+Set a unique password of at least 12 characters for each missing account when
+prompted. Password entry is hidden and confirmed; only scrypt hashes are saved.
+The setup adds `owner`, `admin`, `manager`, `staff`, and `customer`, preserves
+existing accounts and passwords on repeat runs, and removes any matching
+`TBIMS_*_PASSWORD` entries from `backend/.env` after hashing. Do not commit the
+local `.env` file or use default production passwords. After setup, start the
+API with `npm run dev`.
+
+The dashboard supports role-specific views. User accounts are provisioned
+locally via `npm run auth:seed` in `backend`, and passwords are cryptographically
+hashed with scrypt.
+
+## 18. Implemented features and architectural boundaries
+
+The full-stack P4 implementation provides the following verified database-backed and frontend functionality:
+
+### Implemented backend API services (Live Neon PostgreSQL)
+- **Authentication & RBAC (`/api/auth`)**: JWT-based session authentication with `scrypt` password verification (`/api/auth/login`, `/api/auth/me`, `/api/auth/logout`). The backend signs tokens and determines the authenticated user's role (`owner`, `admin`, `inventoryManager`, `staff`, `customer`).
+- **Product Management (`/api/products`)**: PostgreSQL product catalogue retrieval (`GET /`), product creation (`POST /`), and product editing (`PUT /:id`) using P1 table operations with input validation. Access is strictly restricted to internal staff, managers, admins, and owners; customer accounts are forbidden (403).
+- **Customer Store & Purchasing (`/api/shop`)**:
+  - Safe customer catalogue (`GET /api/shop/products`) with text query search and availability status; internal stock breakdown counts (`on_hand`, `reserved`) are completely hidden.
+  - Functional cart checkout (`POST /api/shop/checkout`) with trusted server-side pricing from the database, atomic stock reservation, order items creation, and idempotency protection (`X-Idempotency-Key`).
+  - Customer order tracking (`GET /api/shop/orders`) isolated strictly to orders matching `orders.customer_name = req.user.username`.
+  - Customer order cancellation (`POST /api/shop/orders/:id/cancel`) allowing customers to cancel their own `PENDING` orders, automatically releasing reserved inventory back to available stock.
+- **Stock Receiving (`/api/inventory/receive`)**: Physical stock intake recording incoming quantities and updating inventory and ledger entries.
+- **Order Management (`/api/orders`)**: Admin and Inventory Manager order review, order confirmation (`POST /:id/confirm`) which deducts physical stock and appends a `SALE` transaction to the ledger, and order cancellation (`POST /:id/cancel`).
+- **Reverse Logistics (`/api/orders/:id/return`)**: Management-processed returns for eligible confirmed orders restoring physical and available stock.
+- **Ledger & Audit Trail (`/api/inventory/ledger`, `/api/audit-logs`)**: Immutable append-only stock movement ledger and system audit logging of stock intake, order creation, order confirmation, and order cancellation.
+- **System Health Checks (`/api/health`, `/api/health/db`)**: Liveness probe and database connectivity inspection returning table metadata.
+
+### Working frontend modules
+- **Normal Enterprise Login**: Secure authentication interface with application logo, username, password, and Sign In action. Demo credentials, quick-fill buttons, and role-selection dropdowns are completely removed.
+- **Customer Shopping Portal**: Safe product browsing catalogue, interactive shopping cart with bounds checking, atomic checkout summary, and "My Orders" history with detail inspection and self-service pending cancellation.
+- **Operations Dashboard**: Real-time KPI summaries, inventory levels, and stock movements backed by live database data.
+- **Catalogue & Inventory Register**: Search, filter, product detail view, and product creation.
+- **Stock Receiving & Orders Workspace**: Interactive order reservation, intake, confirmation, and cancellation.
+- **Reports & Security Matrix**: Summary analytics and role-based permissions matrix.
+
+### Architectural boundaries and limitations
+- **User Repository**: The PostgreSQL `users` table remains unpopulated (0 rows) per P1 schema design; user accounts are managed via P4 `AUTH_USERS` in local environment configuration, and order ownership is bound to `orders.customer_name`.
+- **Payment Processing**: Out of scope; order placement atomically reserves inventory and creates orders in `PENDING` status.
+- **Dual Mode Support**: Supports both Live Database Mode (PostgreSQL Neon) and an isolated Demonstration Mode (in-memory simulation). In Live Database Mode, development role preview switching is disabled to prevent mock session generation.

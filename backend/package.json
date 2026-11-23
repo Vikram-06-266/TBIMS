@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "nodemon src/server.js",
     "start": "node src/server.js",
+    "db:verify": "node scripts/check-database.js",
+    "auth:seed": "node scripts/seed-initial-users.js",
     "test": "vitest run"
   },
   "dependencies": {

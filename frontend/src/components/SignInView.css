@@ -1,0 +1,344 @@
+.sign-in-page {
+  align-items: center;
+  background:
+    radial-gradient(ellipse at 18% 0%, #e8edff 0, transparent 44%),
+    #f7f8fa;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 32px 20px;
+}
+
+.sign-in-container {
+  display: flex;
+  max-width: 440px;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign-in-card {
+  background: #fff;
+  border: 1px solid #e6e9ef;
+  border-radius: 20px;
+  box-shadow: 0 24px 70px #26355012;
+  max-width: 440px;
+  padding: 38px;
+  flex: 1 1 400px;
+}
+
+.sign-in-brand {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+
+.sign-in-brand__mark {
+  align-items: center;
+  background: #2f59d9;
+  border-radius: 12px;
+  color: #fff;
+  display: flex;
+  height: 42px;
+  justify-content: center;
+  width: 42px;
+}
+
+.sign-in-brand strong,
+.sign-in-brand small {
+  display: block;
+}
+
+.sign-in-brand strong {
+  color: #202b40;
+  font-size: 19px;
+  letter-spacing: -0.5px;
+}
+
+.sign-in-brand small {
+  color: #8b95a6;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.15px;
+  margin-top: 3px;
+}
+
+.sign-in-card .eyebrow {
+  color: #68789a;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.15px;
+  margin: 0 0 10px;
+}
+
+.sign-in-card h1 {
+  color: #202b40;
+  font-size: 27px;
+  letter-spacing: -0.8px;
+  margin: 0;
+}
+
+.sign-in-description,
+.sign-in-footer {
+  color: #7b8493;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.sign-in-description {
+  margin: 10px 0 25px;
+}
+
+.sign-in-form {
+  display: grid;
+  gap: 18px;
+}
+
+.sign-in-form input {
+  border: 1px solid #dfe3eb;
+  border-radius: 9px;
+  color: #293449;
+  height: 44px;
+  padding: 0 12px;
+}
+
+.sign-in-form input:focus {
+  border-color: #5274dc;
+  outline: 3px solid #315de822;
+}
+
+.sign-in-password {
+  display: block;
+  position: relative;
+}
+
+.sign-in-password input {
+  padding-right: 64px;
+  width: 100%;
+}
+
+.sign-in-password__toggle {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  padding: 5px 7px;
+  transform: translateY(-50%);
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #53678f;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.sign-in-password__toggle:hover:not(:disabled) {
+  background: #eef2fa;
+  color: #284ab3;
+}
+
+.sign-in-password__toggle:disabled {
+  cursor: wait;
+}
+
+.sign-in-submit {
+  justify-content: center;
+  margin-top: 4px;
+  min-height: 44px;
+}
+
+.sign-in-error {
+  background: #fff2f0;
+  border: 1px solid #f1c8c2;
+  border-radius: 9px;
+  color: #9c352b;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+  padding: 11px 13px;
+}
+
+.sign-in-footer {
+  border-top: 1px solid #edf0f4;
+  margin: 25px 0 0;
+  padding-top: 17px;
+}
+
+/* DEMO QUICK ACCESS CARD */
+.demo-access-card {
+  background: #ffffff;
+  border: 1px solid #e2e6ee;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px #1a27440d;
+  flex: 1 1 420px;
+  max-width: 480px;
+  padding: 34px;
+  display: flex;
+  flex-direction: column;
+}
+
+.demo-access-header {
+  margin-bottom: 20px;
+}
+
+.demo-access-header h2 {
+  font-size: 21px;
+  color: #1e283b;
+  margin: 8px 0 6px;
+  letter-spacing: -0.4px;
+}
+
+.demo-access-header p {
+  color: #64748b;
+  font-size: 13px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.demo-users-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-grow: 1;
+}
+
+.demo-user-button {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border: 1px solid #e8ecf4;
+  border-radius: 12px;
+  background: #fbfcfe;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease-in-out;
+}
+
+.demo-user-button:hover {
+  background: #f0f4ff;
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+}
+
+.demo-user-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: #2563eb;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 15px;
+  flex-shrink: 0;
+}
+
+.demo-user-button:nth-child(2) .demo-user-avatar {
+  background: #7c3aed;
+}
+
+.demo-user-button:nth-child(3) .demo-user-avatar {
+  background: #059669;
+}
+
+.demo-user-button:nth-child(4) .demo-user-avatar {
+  background: #d97706;
+}
+
+.demo-user-button:nth-child(5) .demo-user-avatar {
+  background: #475569;
+}
+
+.demo-user-info {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.demo-user-info strong {
+  font-size: 14px;
+  color: #1e293b;
+}
+
+.demo-user-role {
+  font-size: 11px;
+  font-family: monospace;
+  color: #2563eb;
+  font-weight: 600;
+  margin-top: 1px;
+}
+
+.demo-user-info small {
+  color: #64748b;
+  font-size: 11px;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.demo-user-arrow {
+  color: #94a3b8;
+  font-size: 18px;
+  font-weight: bold;
+  padding-right: 4px;
+  transition: transform 0.15s ease;
+}
+
+.demo-user-button:hover .demo-user-arrow {
+  color: #2563eb;
+  transform: translateX(3px);
+}
+
+.demo-access-footnote {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid #f1f4f9;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.auth-checking {
+  align-items: center;
+  color: #64728a;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  justify-content: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: 24px;
+}
+
+@media (max-width: 860px) {
+  .sign-in-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .sign-in-card,
+  .demo-access-card {
+    max-width: 440px;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .sign-in-card,
+  .demo-access-card {
+    padding: 24px 18px;
+  }
+
+  .sign-in-brand {
+    margin-bottom: 24px;
+  }
+}
