@@ -1,6 +1,9 @@
 import { ApiError } from './products-api.js'
 
-const rawBase = (import.meta.env?.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '')
+let rawBase = (import.meta.env?.VITE_API_BASE_URL || '').trim().replace(/\/+$/, '')
+if (rawBase && !rawBase.includes('.') && !rawBase.startsWith('localhost')) {
+  rawBase = `${rawBase}.onrender.com`
+}
 const API_BASE_URL = rawBase && !rawBase.startsWith('http://') && !rawBase.startsWith('https://')
   ? `https://${rawBase}`
   : rawBase
