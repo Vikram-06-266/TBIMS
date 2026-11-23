@@ -8,7 +8,9 @@
     "start": "node src/server.js",
     "db:verify": "node scripts/check-database.js",
     "auth:seed": "node scripts/seed-initial-users.js",
-    "test": "vitest run"
+    "test": "vitest run",
+    "test:concurrency": "vitest run tests/concurrency.test.js",
+    "benchmark:concurrency": "node scripts/run-concurrency-benchmark.js"
   },
   "dependencies": {
     "cors": "^2.8.6",
