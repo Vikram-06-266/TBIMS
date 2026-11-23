@@ -50,6 +50,25 @@ export function createApp({
   app.use(cors(corsOptions));
   app.use(express.json());
 
+  // Root service discovery endpoint
+  app.get("/", (_req, res) => {
+    res.json({
+      ok: true,
+      service: "transaction-inventory-system",
+      status: "online",
+      endpoints: {
+        health: "/api/health",
+        dbHealth: "/api/health/db",
+        products: "/api/products",
+        inventory: "/api/inventory",
+        orders: "/api/orders",
+        shop: "/api/shop",
+      },
+    });
+  });
+
+  // Health check mounted at both root and /api for compatibility
+  app.use(healthRouter);
   app.use("/api", healthRouter);
   app.use("/api/auth", createAuthRouter(authService));
   app.use(
